@@ -1,545 +1,848 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Content Portfolio</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Video Portfolio</title>
+  <link rel="icon" type="image/svg+xml" href="aa logo.svg">
   <style>
-    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    /* ── Theme tokens ── */
+    :root {
+      --bg: #03030a; --fg: #ffffff;
+      --nav-bg: rgba(3,3,10,0.72); --nav-border: rgba(255,255,255,0.07); --nav-link: rgba(255,255,255,0.45);
+      --eyebrow: rgba(255,255,255,0.28); --hero-sub: rgba(255,255,255,0.28); --hero-line-c: rgba(255,255,255,0.15);
+      --sec-num: rgba(255,255,255,0.18); --sec-title: rgba(255,255,255,0.8); --sec-rule: rgba(255,255,255,0.08);
+      --card-bg: rgba(255,255,255,0.015); --card-border: rgba(255,255,255,0.05); --card-border-h: rgba(255,255,255,0.11); --card-shadow: rgba(0,0,0,0.5);
+      --btn-fg: rgba(255,255,255,0.6); --btn-border: rgba(255,255,255,0.12); --btn-border-h: rgba(255,255,255,0.3); --btn-bg-h: rgba(255,255,255,0.04);
+      --car-bg: rgba(255,255,255,0.04); --car-border: rgba(255,255,255,0.1); --car-fg: rgba(255,255,255,0.55); --car-bg-h: rgba(255,255,255,0.1); --car-border-h: rgba(255,255,255,0.25); --car-fg-h: #fff;
+      --skills-lbl: rgba(255,255,255,0.22); --skill-fg: rgba(255,255,255,0.45); --skill-border: rgba(255,255,255,0.07);
+      --sw-bg: rgba(255,255,255,0.04); --sw-border: rgba(255,255,255,0.07); --sw-name: rgba(255,255,255,0.35);
+      --proc-border: rgba(255,255,255,0.06); --proc-n: rgba(255,255,255,0.18); --proc-name: rgba(255,255,255,0.55); --proc-arrow: rgba(255,255,255,0.12);
+      --neb1: #3a0d8f; --neb1-o: .07; --neb2: #0055cc; --neb2-o: .06; --neb3: #6600cc; --neb3-o: .05;
+      --star: 255,255,255;
+      color-scheme: dark;
     }
+
+    [data-theme="light"] {
+      --bg: #f0f0f6; --fg: #0a0a14;
+      --nav-bg: rgba(240,240,246,0.84); --nav-border: rgba(0,0,0,0.09); --nav-link: rgba(10,10,20,0.5);
+      --eyebrow: rgba(10,10,20,0.38); --hero-sub: rgba(10,10,20,0.42); --hero-line-c: rgba(0,0,0,0.1);
+      --sec-num: rgba(10,10,20,0.22); --sec-title: rgba(10,10,20,0.75); --sec-rule: rgba(0,0,0,0.1);
+      --card-bg: rgba(0,0,0,0.025); --card-border: rgba(0,0,0,0.07); --card-border-h: rgba(0,0,0,0.15); --card-shadow: rgba(0,0,0,0.12);
+      --btn-fg: rgba(10,10,20,0.6); --btn-border: rgba(0,0,0,0.12); --btn-border-h: rgba(0,0,0,0.28); --btn-bg-h: rgba(0,0,0,0.04);
+      --car-bg: rgba(0,0,0,0.04); --car-border: rgba(0,0,0,0.1); --car-fg: rgba(10,10,20,0.5); --car-bg-h: rgba(0,0,0,0.08); --car-border-h: rgba(0,0,0,0.22); --car-fg-h: #0a0a14;
+      --skills-lbl: rgba(10,10,20,0.3); --skill-fg: rgba(10,10,20,0.55); --skill-border: rgba(0,0,0,0.09);
+      --sw-bg: rgba(0,0,0,0.03); --sw-border: rgba(0,0,0,0.08); --sw-name: rgba(10,10,20,0.45);
+      --proc-border: rgba(0,0,0,0.07); --proc-n: rgba(10,10,20,0.22); --proc-name: rgba(10,10,20,0.6); --proc-arrow: rgba(10,10,20,0.18);
+      --neb1: #9070d0; --neb1-o: .1; --neb2: #4080d0; --neb2-o: .08; --neb3: #a060d0; --neb3-o: .07;
+      --star: 30,30,70;
+      color-scheme: light;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
 
     body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #000;
-      color: #fff;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: Inter, system-ui, -apple-system, sans-serif;
       overflow-x: hidden;
+      transition: background .3s, color .3s;
     }
 
-    /* Header */
+    /* ── Starfield canvas ── */
+    #starfield {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── Nebula ambient blobs ── */
+    .nebula {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(130px);
+      transition: background .3s, opacity .3s;
+    }
+    .n1 { width:700px; height:700px; background:var(--neb1); opacity:var(--neb1-o); top:-180px; left:-200px; }
+    .n2 { width:500px; height:500px; background:var(--neb2); opacity:var(--neb2-o); bottom:100px; right:-150px; }
+    .n3 { width:400px; height:400px; background:var(--neb3); opacity:var(--neb3-o); top:55%; left:42%; }
+
+    /* ── Header ── */
     header {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      padding: 20px 50px;
-      background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
-      z-index: 1000;
-      transition: background 0.3s;
-    }
-
-    header.scrolled {
-      background: rgba(0,0,0,0.95);
-    }
-
-    .logo {
-      font-size: 28px;
-      font-weight: 700;
-      color: #E50914;
-      text-decoration: none;
-    }
-
-    nav {
-      position: absolute;
-      top: 50%;
+      top: 16px;
       left: 50%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      gap: 30px;
+      transform: translateX(-50%);
+      z-index: 100;
+      background: var(--nav-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--nav-border);
+      border-radius: 999px;
+      padding: 10px 28px;
+      white-space: nowrap;
+      transition: background .3s, border-color .3s;
+    }
+
+    nav { display:flex; justify-content:center; align-items:center; gap:28px; }
+
+    .nav-logo {
+      height: 22px;
+      width: auto;
+      opacity: 0.85;
+      margin-right: 4px;
     }
 
     nav a {
-      color: #fff;
       text-decoration: none;
-      font-size: 16px;
+      color: var(--nav-link);
       font-weight: 500;
-      transition: color 0.3s;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      font-size: 11px;
+      transition: color .2s;
     }
+    nav a:hover { color: var(--fg); }
 
-    nav a:hover {
-      color: #E50914;
-    }
-
-    /* Hero Section */
-    .hero {
-      height: 70vh;
+    /* ── Theme toggle ── */
+    .theme-btn {
+      position: fixed;
+      top: 16px;
+      right: 20px;
+      z-index: 101;
+      background: var(--nav-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--nav-border);
+      border-radius: 999px;
+      width: 38px;
+      height: 38px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, #000 0%, #1a0000 100%);
-      text-align: center;
-      padding: 0 20px;
-    }
-
-    .hero h1 {
-      font-size: 64px;
-      font-weight: 700;
-      margin-bottom: 20px;
-      background: linear-gradient(90deg, #fff 0%, #E50914 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero p {
-      font-size: 20px;
-      color: #b3b3b3;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    /* Section Styles */
-    section {
-      padding: 80px 50px;
-      border-bottom: 1px solid #222;
-    }
-
-    section h2 {
-      font-size: 42px;
-      margin-bottom: 50px;
-      text-align: center;
-      position: relative;
-    }
-
-    section h2::after {
-      content: '';
-      position: absolute;
-      bottom: -15px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 4px;
-      background: #E50914;
-      border-radius: 2px;
-    }
-
-    /* Content Grid */
-    .content-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 30px;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .content-item {
-      background: #141414;
-      border-radius: 8px;
-      overflow: hidden;
-      transition: transform 0.3s;
-    }
-
-    .content-item:hover {
-      transform: translateY(-10px);
-    }
-
-    /* Video Embed Container */
-    .video-wrapper {
-      position: relative;
-      padding-bottom: 56.25%; /* 16:9 aspect ratio */
-      height: 0;
-      overflow: hidden;
-    }
-
-    .video-wrapper iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    /* Short Form / Reels Grid */
-    .reels-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .reel-item {
-      background: #141414;
-      border-radius: 8px;
-      overflow: hidden;
-      aspect-ratio: 9/16;
-      transition: transform 0.3s;
-    }
-
-    .reel-item:hover {
-      transform: scale(1.05);
-    }
-
-    .reel-wrapper {
-      position: relative;
-      width: 100%;
-      height: 100%;
-    }
-
-    .reel-wrapper iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    /* Instagram Embed */
-    .instagram-wrapper {
-      max-width: 540px;
-      margin: 0 auto;
-    }
-
-    /* Footer */
-    footer {
-      padding: 40px 20px;
-      text-align: center;
-      color: #686868;
-      font-size: 14px;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      header {
-        padding: 15px 20px;
-      }
-
-      nav {
-        position: static;
-        transform: none;
-        justify-content: center;
-        margin-top: 15px;
-        gap: 20px;
-      }
-
-      .hero h1 {
-        font-size: 42px;
-      }
-
-      .hero p {
-        font-size: 16px;
-      }
-
-      section {
-        padding: 60px 20px;
-      }
-
-      section h2 {
-        font-size: 32px;
-      }
-
-      .content-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .reels-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 480px) {
-      .hero h1 {
-        font-size: 32px;
-      }
-
-      .reels-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    /* Software Section */
-    .software-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 60px;
-    }
-
-    .software-category {
-      text-align: center;
-    }
-
-    .software-category h3 {
-      font-size: 28px;
-      margin-bottom: 30px;
-      color: #E50914;
-    }
-
-    .software-logos {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 40px;
-      flex-wrap: wrap;
-    }
-
-    .logo-item {
-      transition: transform 0.3s ease;
       cursor: pointer;
+      color: var(--nav-link);
+      transition: color .2s, background .3s, border-color .3s;
     }
+    .theme-btn:hover { color: var(--fg); }
+    .theme-btn svg { width: 15px; height: 15px; }
 
-    .logo-item:hover {
-      transform: scale(1.1) rotate(5deg);
-      animation: pulse 1s infinite;
-    }
-
-    .logo-item img {
-      width: 120px;
-      height: 120px;
-      object-fit: contain;
-      filter: drop-shadow(0 5px 15px rgba(229, 9, 20, 0.3));
-    }
-
-    @keyframes pulse {
-      0%, 100% {
-        transform: scale(1.1) rotate(5deg);
-      }
-      50% {
-        transform: scale(1.15) rotate(5deg);
-      }
-    }
-
-    /* Contact Section */
-    .contact-section {
-      background: linear-gradient(135deg, #1a0000 0%, #000 100%);
-      padding: 80px 50px;
+    /* ── Hero ── */
+    #hero {
+      position: relative;
+      z-index: 1;
       text-align: center;
-      border-bottom: none;
+      padding: 130px 20px 64px;
+      will-change: transform;
     }
 
-    .contact-section h2 {
-      font-size: 48px;
+    .hero-eyebrow {
+      font-size: 10px;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--eyebrow);
       margin-bottom: 20px;
     }
 
-    .contact-section p {
-      font-size: 18px;
-      color: #b3b3b3;
-      margin-bottom: 40px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
+    .hero-title {
+      font-size: clamp(2.2rem, 6vw, 4.2rem);
+      font-weight: 300;
+      letter-spacing: -.01em;
+      color: var(--fg);
+      line-height: 1.08;
     }
 
-    .social-links {
+    .hero-sub {
+      margin-top: 18px;
+      font-size: 13px;
+      color: var(--hero-sub);
+      letter-spacing: .06em;
+    }
+
+    .hero-line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, var(--hero-line-c), transparent);
+      margin: 36px auto 0;
+    }
+
+    /* ── Main ── */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 18px 100px;
+    }
+
+    section { margin-bottom: 72px; }
+
+    /* ── Section header ── */
+    .sec-head {
+      text-align: center;
+      margin-bottom: 30px;
+      will-change: transform;
+    }
+
+    .sec-num {
+      font-size: 10px;
+      letter-spacing: .26em;
+      color: var(--sec-num);
+      margin-bottom: 8px;
+    }
+
+    .sec-title {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--sec-title);
+    }
+
+    .sec-rule {
+      width: 36px;
+      height: 1px;
+      background: var(--sec-rule);
+      margin: 14px auto 0;
+    }
+
+    /* ── Grid ── */
+    .grid { display: grid; gap: 14px; }
+    .short-grid { grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); }
+    .wide-grid  { grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); }
+
+    /* ── Cards ── */
+    .embed-card {
+      background: var(--card-bg);
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+      transition: border-color .3s, transform .3s, box-shadow .3s;
+    }
+    .embed-card:hover {
+      border-color: var(--card-border-h);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px var(--card-shadow);
+    }
+    .embed-card iframe { display:block; width:100%; height:100%; border:0; }
+    .embed-card.short { aspect-ratio: 9/16; }
+    .embed-card.wide  { aspect-ratio: 16/9; }
+
+    /* ── Hero buttons ── */
+    .hero-buttons {
       display: flex;
       justify-content: center;
-      gap: 30px;
+      gap: 12px;
+      margin-top: 28px;
       flex-wrap: wrap;
     }
 
-    .social-link {
+    .hero-btn {
+      text-decoration: none;
+      color: var(--btn-fg);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      padding: 9px 20px;
+      border: 1px solid var(--btn-border);
+      border-radius: 6px;
+      transition: color .2s, border-color .2s, background .2s;
+    }
+    .hero-btn:hover {
+      color: var(--fg);
+      border-color: var(--btn-border-h);
+      background: var(--btn-bg-h);
+    }
+
+    /* ── Short form carousel ── */
+    .carousel-wrap { position: relative; padding: 0 44px; }
+
+    .carousel {
+      display: flex;
+      gap: 14px;
+      overflow-x: scroll;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      scroll-snap-type: x mandatory;
+    }
+    .carousel::-webkit-scrollbar { display: none; }
+    .carousel .embed-card { flex: 0 0 calc(25% - 11px); scroll-snap-align: start; }
+
+    .car-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      background: var(--car-bg);
+      border: 1px solid var(--car-border);
+      color: var(--car-fg);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 15px;
+      line-height: 1;
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 15px 30px;
-      background: #141414;
-      border-radius: 50px;
-      text-decoration: none;
-      color: #fff;
-      font-size: 16px;
+      justify-content: center;
+      transition: background .2s, color .2s, border-color .2s;
+    }
+    .car-btn:hover { background: var(--car-bg-h); color: var(--car-fg-h); border-color: var(--car-border-h); }
+    .car-prev { left: 0; }
+    .car-next { right: 0; }
+
+    /* ── Software & Skills ── */
+    .skills-block { margin-bottom: 40px; }
+
+    .skills-label {
+      font-size: 10px;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      color: var(--skills-lbl);
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .software-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+
+    .sw-card { display: flex; flex-direction: column; align-items: center; gap: 9px; }
+
+    .sw-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .sw-icon img { width: 100%; height: 100%; object-fit: contain; }
+
+    .sw-name { font-size: 11px; color: var(--sw-name); letter-spacing: .03em; }
+
+    .skill-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+
+    .skill-tag {
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--skill-fg);
+      padding: 7px 18px;
+      border: 1px solid var(--skill-border);
+      border-radius: 999px;
+    }
+
+    /* ── Editing Process ── */
+    .process-track { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; }
+
+    .proc-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      padding: 14px 18px;
+      border: 1px solid var(--proc-border);
+      border-radius: 8px;
+      min-width: 120px;
+    }
+
+    .proc-n { font-size: 9px; letter-spacing: .22em; color: var(--proc-n); }
+    .proc-name { font-size: 12px; color: var(--proc-name); text-align: center; letter-spacing: .03em; }
+    .proc-arrow { color: var(--proc-arrow); font-size: 13px; flex-shrink: 0; }
+
+    /* ── Footer ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--sec-rule);
+      padding: 56px 20px 40px;
+    }
+
+    .footer-inner {
+      max-width: 500px;
+      margin: 0 auto;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-logo {
+      height: 36px;
+      width: auto;
+      opacity: 0.7;
+      margin-bottom: 4px;
+    }
+
+    .footer-name {
+      font-size: 14px;
       font-weight: 500;
-      transition: all 0.3s ease;
-      border: 2px solid transparent;
+      color: var(--sec-title);
+      letter-spacing: .06em;
     }
 
-    .social-link:hover {
-      background: #E50914;
-      border-color: #E50914;
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(229, 9, 20, 0.4);
+    .footer-role {
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--sec-num);
     }
 
-    .social-icon {
-      width: 24px;
-      height: 24px;
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 10px;
     }
 
-    @media (max-width: 768px) {
-      .software-container {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
+    .footer-links a {
+      font-size: 12px;
+      color: var(--nav-link);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--fg); }
 
-      .software-logos {
-        gap: 30px;
-      }
+    .footer-dot { color: var(--proc-arrow); font-size: 12px; }
 
-      .logo-item img {
-        width: 100px;
-        height: 100px;
-      }
+    .footer-copy {
+      margin-top: 20px;
+      font-size: 10px;
+      letter-spacing: .08em;
+      color: var(--proc-n);
+    }
 
-      .contact-section h2 {
-        font-size: 36px;
-      }
+    /* ── Tablet ── */
+    @media (max-width: 900px) {
+      .carousel .embed-card { flex: 0 0 calc(33.33% - 10px); }
+    }
 
-      .social-links {
-        flex-direction: column;
-        align-items: center;
+    /* ── Mobile ── */
+    @media (max-width: 640px) {
+      /* Nav pill */
+      header {
+        max-width: calc(100% - 72px);
+        padding: 9px 16px;
       }
+      nav { gap: 14px; }
+      nav a { font-size: 10px; letter-spacing: .1em; }
+      .nav-logo { display: none; }
 
-      .social-link {
-        width: 100%;
-        max-width: 300px;
-        justify-content: center;
-      }
+      /* Theme btn */
+      .theme-btn { width: 34px; height: 34px; right: 14px; }
+
+      /* Hero */
+      #hero { padding: 96px 16px 44px; }
+      .hero-sub { font-size: 12px; }
+      .hero-buttons { gap: 8px; }
+      .hero-btn { padding: 8px 16px; font-size: 10px; }
+
+      /* Layout */
+      main { padding: 0 14px 60px; }
+      section { margin-bottom: 52px; }
+
+      /* Grids */
+      .wide-grid { grid-template-columns: 1fr; }
+
+      /* Carousel — 2 cards */
+      .carousel-wrap { padding: 0 36px; }
+      .carousel .embed-card { flex: 0 0 calc(50% - 7px); }
+
+      /* Process — hide arrows, wrap into 2-col */
+      .proc-arrow { display: none; }
+      .proc-step { flex: 0 0 calc(50% - 8px); min-width: unset; padding: 12px 10px; }
+
+      /* Footer */
+      footer { padding: 40px 16px 28px; }
+      .footer-links { gap: 8px; }
+    }
+
+    /* ── Small phone ── */
+    @media (max-width: 400px) {
+      header { padding: 8px 12px; }
+      nav { gap: 10px; }
+      nav a { font-size: 9px; letter-spacing: .07em; }
+
+      /* Carousel — 1 wide card */
+      .carousel .embed-card { flex: 0 0 calc(75% - 7px); }
+      .carousel-wrap { padding: 0 32px; }
+
+      /* Process — single column */
+      .proc-step { flex: 0 0 100%; }
     }
   </style>
 </head>
 <body>
-  <header id="header">
-    <a href="#" class="logo">PORTFOLIO</a>
+
+  <button class="theme-btn" id="theme-btn" aria-label="Toggle theme">
+    <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </svg>
+    <svg id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
+  </button>
+
+  <canvas id="starfield"></canvas>
+  <div class="nebula n1"></div>
+  <div class="nebula n2"></div>
+  <div class="nebula n3"></div>
+
+  <header>
     <nav>
-      <a href="#podcast">Podcast</a>
+      <img src="aa logo.svg" alt="AA" class="nav-logo">
       <a href="#reels">Short Form</a>
       <a href="#longform">Long Form</a>
+      <a href="#podcast">Podcast</a>
+      <a href="#ads">Ads</a>
     </nav>
   </header>
 
-  <div class="hero">
-    <div>
-      <h1>Hi! I'm Aaliyah!</h1>
-      <p>I’m a video editor specializing in clean, engaging, and story-driven content. I transform raw footage into polished videos that capture attention, communicate clearly, and leave a lasting impact.</p>
+  <div id="hero">
+    <p class="hero-eyebrow">Video Portfolio</p>
+    <h1 class="hero-title">Aaliyah Bondoc</h1>
+    <p class="hero-sub">A collection of work across formats and platforms.</p>
+    <div class="hero-buttons">
+      <a href="mailto:bondoc.aaliyah.b@gmail.com" class="hero-btn">Work with me</a>
+      <a href="https://drive.google.com/file/d/17Ng6Ey7KhdaxxakA3SqXAU6N3hM1yelb/view?usp=sharing" class="hero-btn">CV</a>
+      <a href="https://www.linkedin.com/in/lyhbndc" target="_blank" rel="noopener" class="hero-btn">LinkedIn</a>
     </div>
+    <div class="hero-line"></div>
   </div>
 
-  <section id="software">
-    <h2>Software I Use</h2>
-    <div class="software-container">
-      <div class="software-category">
-        <h3>Video Editing</h3>
-        <div class="software-logos">
-          <div class="logo-item">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/4/40/Adobe_Premiere_Pro_CC_icon.svg" alt="Adobe Premiere Pro">
-          </div>
-          <div class="logo-item">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/1/1c/Capcut-icon.svg" alt="CapCut">
-          </div>
-        </div>
-      </div>
-      <div class="software-category">
-        <h3>Graphics</h3>
-        <div class="software-logos">
-          <div class="logo-item">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/Canva_logo.svg" alt="Canva">
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- Podcast Section -->
-  <section id="podcast">
-    <h2>Podcast</h2>
-    <div class="content-grid">
-      <div class="content-item">
-        <div class="video-wrapper">
-          <!-- Replace with your YouTube video ID -->
-          <iframe src="https://www.youtube.com/embed/_juXd0hQA0k?si=h_wi3vhZBgPoSg88" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-      </div>
-      <div class="content-item">
-        <div class="video-wrapper">
-          <iframe src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F2402882466822539%2F&show_text=false&width=560&t=0" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
-        </div>
-      </div>
-      <div class="content-item">
-        <div class="video-wrapper">
-          <iframe src="https://www.youtube.com/embed/oTSUL85ee2E?si=faghpZuSXfRqctDt" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-      </div>
-    </div>
-  </section>
+  <main>
 
-  <!-- Reels Section -->
-  <section id="reels">
-    <h2>Short Form</h2>
-    <div class="reels-grid">
-      <div class="reel-item">
-        <div class="reel-wrapper">
-          <!-- Replace with your Instagram Reel embed URL -->
-          <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DSXYZXagSS4/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:16px;"> <a href="https://www.instagram.com/reel/DSXYZXagSS4/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"> <div style=" display: flex; flex-direction: row; align-items: center;"> <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div></div></div><div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg></div><div style="padding-top: 8px;"> <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">View this post on Instagram</div></div><div style="padding: 12.5% 0;"></div> <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;"><div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div> <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div></div><div style="margin-left: 8px;"> <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div> <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div></div><div style="margin-left: auto;"> <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div> <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div> <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div></div></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div></div></a><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/reel/DSXYZXagSS4/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">A post shared by Peanut Gallery Media Network (@pgmnofficial)</a></p></div></blockquote>
-<script async src="//www.instagram.com/embed.js"></script>
-        </div>
+    <section id="reels">
+      <div class="sec-head" data-parallax="0.04">
+        <p class="sec-num">01</p>
+        <h2 class="sec-title">Short Form</h2>
+<div class="sec-rule"></div>
       </div>
-      <div class="reel-item">
-        <div class="reel-wrapper">
-<blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DO713XdE_TP/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:16px;"> <a href="https://www.instagram.com/reel/DO713XdE_TP/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"> <div style=" display: flex; flex-direction: row; align-items: center;"> <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div></div></div><div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg></div><div style="padding-top: 8px;"> <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">View this post on Instagram</div></div><div style="padding: 12.5% 0;"></div> <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;"><div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div> <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div></div><div style="margin-left: 8px;"> <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div> <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div></div><div style="margin-left: auto;"> <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div> <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div> <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div></div></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div></div></a><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/reel/DO713XdE_TP/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">A post shared by Peanut Gallery Media Network (@pgmnofficial)</a></p></div></blockquote>
-<script async src="//www.instagram.com/embed.js"></script>
+      <div class="carousel-wrap">
+        <button class="car-btn car-prev" id="reels-prev" aria-label="Previous">&#8592;</button>
+        <div class="carousel" id="reels-track">
+          <div class="embed-card short">
+            <iframe src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F729583336672161%2F&show_text=false&width=267&t=0" width="267" height="476" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+          </div>
+          <div class="embed-card short">
+            <iframe src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1073453444921552%2F&show_text=false&width=267&t=0" width="267" height="476" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+          </div>
+          <div class="embed-card short">
+            <iframe src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1800358600920049%2F&show_text=false&width=267&t=0" width="267" height="476" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+          </div>
+          <div class="embed-card short">
+            <iframe src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F730653139877655%2F&show_text=false&width=267&t=0" width="267" height="476" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+          </div>
+          <div class="embed-card short">
+            <iframe src="https://drive.google.com/file/d/1pVVcxgN15x0_iWLXaHeydqZppc0aEhw2/preview" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+          </div>
+          <div class="embed-card short">
+            <iframe src="https://drive.google.com/file/d/1tUZcp-AheXOq7l9QHAQNOXoHJ8_xrCKo/preview" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+          </div>
+          <div class="embed-card short">
+            <iframe src="https://drive.google.com/file/d/16kK_h113hD1z14RKHiaeGsTU_QXDbX46/preview" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+          </div>
+          <div class="embed-card short">
+            <iframe src="https://drive.google.com/file/d/1QcYUJBdn3a4R1gK_Zefk797TCk7DGgdw/preview" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+          </div>
+          <div class="embed-card short">
+            <iframe src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1153413013336832%2F&show_text=false&width=267&t=0" width="267" height="476" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+          </div>
+          <div class="embed-card short">
+            <iframe src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1184610310244857%2F&show_text=false&width=267&t=0" width="267" height="476" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+          </div>
+          <div class="embed-card short">
+            <iframe src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1199203095458924%2F&show_text=false&width=267&t=0" width="267" height="476" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+          </div>
         </div>
+        <button class="car-btn car-next" id="reels-next" aria-label="Next">&#8594;</button>
       </div>
-      <div class="reel-item">
-        <div class="reel-wrapper">
-          <iframe src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1073453444921552%2F&show_text=false&width=267&t=0" width="267" height="476" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
-        </div>
-      </div>
-      <div class="reel-item">
-        <div class="reel-wrapper">
-        <iframe src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1199203095458924%2F&show_text=false&width=267&t=0" width="267" height="476" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Long Form Section -->
-  <section id="longform">
-    <h2>Long Form Content</h2>
-    <div class="content-grid">
-      <div class="content-item">
-        <div class="video-wrapper">
-          <!-- YouTube video -->
-          <iframe src="https://www.youtube.com/embed/Gkw_iQ9l8yk?si=boNQ8j30jXF5QmNN" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <section id="longform">
+      <div class="sec-head" data-parallax="0.04">
+        <p class="sec-num">02</p>
+        <h2 class="sec-title">Long Form</h2>
+<div class="sec-rule"></div>
+      </div>
+      <div class="grid wide-grid">
+
+        <div class="embed-card wide">
+          <iframe src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F798053669702891%2F&show_text=false&width=560&t=0" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+        </div>
+        <div class="embed-card wide">
+          <iframe src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1336210801417473%2F&show_text=false&width=560&t=0" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+        </div>
+        <div class="embed-card wide">
+          <iframe src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F26223004610691096%2F&show_text=false&width=560&t=0" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+        </div>
+        <div class="embed-card wide">
+          <iframe src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F927255009803651%2F&show_text=false&width=560&t=0" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+        </div>
+        <div class="embed-card wide">
+          <iframe src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1305252254939228%2F&show_text=false&width=560&t=0" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+        </div>
+        <div class="embed-card wide">
+          <iframe src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1046770357375169%2F&show_text=false&width=560&t=0" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+        </div>
+                <div class="embed-card wide">
+          <iframe src="https://drive.google.com/file/d/1MQx4WrtHm9PTj7U1BH2xVQDkVOC2WMXH/preview" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+        </div>
+                <div class="embed-card wide">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/IPDu14krDUI?si=8rJXSXPYqEu5WnCJ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
       </div>
-      <div class="content-item">
-        <div class="video-wrapper">
-          <!-- Facebook video - use Facebook video plugin URL -->
-          <iframe src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1046770357375169%2F&show_text=false&width=560&t=0" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
+    </section>
+
+    <section id="podcast">
+      <div class="sec-head" data-parallax="0.04">
+        <p class="sec-num">03</p>
+        <h2 class="sec-title">Podcast</h2>
+<div class="sec-rule"></div>
+      </div>
+      <div class="grid wide-grid">
+        <div class="embed-card wide">
+          <iframe src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1111682447618412%2F&show_text=false&width=560&t=0" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+        </div>
+        <div class="embed-card wide">
+          <iframe src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F2402882466822539%2F&show_text=false&width=560&t=0" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+        </div>
+        <div class="embed-card wide">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/hkmSjsR2Wpc?si=QFcPpJwWGFvQHBxB&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
       </div>
-      <div class="content-item">
-        <div class="video-wrapper">
-         <iframe src="https://www.youtube.com/embed/NyrL9k_LYK0?si=SKmc-zuZVVDb6pyF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </section>
+
+    <section id="ads">
+      <div class="sec-head" data-parallax="0.04">
+        <p class="sec-num">04</p>
+        <h2 class="sec-title">Ads</h2>
+<div class="sec-rule"></div>
+      </div>
+      <div class="grid wide-grid">
+        <div class="embed-card wide">
+          <iframe src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1425674842452878%2F&show_text=false&width=560&t=0" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+        </div>
+        <div class="embed-card wide">
+          <iframe src="https://www.facebook.com/plugins/video.php?height=315&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1671730164197308%2F&show_text=false&width=560&t=0" width="560" height="315" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <section id="process">
+      <div class="sec-head" data-parallax="0.04">
+        <p class="sec-num">05</p>
+        <h2 class="sec-title">Editing Process</h2>
+        <div class="sec-rule"></div>
+      </div>
+      <div class="process-track">
+        <div class="proc-step"><span class="proc-n">01</span><span class="proc-name">Receive footage</span></div>
+        <span class="proc-arrow">→</span>
+        <div class="proc-step"><span class="proc-n">02</span><span class="proc-name">Organize assets</span></div>
+        <span class="proc-arrow">→</span>
+        <div class="proc-step"><span class="proc-n">03</span><span class="proc-name">Rough cut</span></div>
+        <span class="proc-arrow">→</span>
+        <div class="proc-step"><span class="proc-n">04</span><span class="proc-name">Storytelling & pacing</span></div>
+        <span class="proc-arrow">→</span>
+        <div class="proc-step"><span class="proc-n">05</span><span class="proc-name">Motion graphics</span></div>
+        <span class="proc-arrow">→</span>
+        <div class="proc-step"><span class="proc-n">06</span><span class="proc-name">Sound design</span></div>
+        <span class="proc-arrow">→</span>
+        <div class="proc-step"><span class="proc-n">07</span><span class="proc-name">Revisions</span></div>
+        <span class="proc-arrow">→</span>
+        <div class="proc-step"><span class="proc-n">08</span><span class="proc-name">Delivery</span></div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="sec-head" data-parallax="0.04">
+        <p class="sec-num">06</p>
+        <h2 class="sec-title">Software & Skills</h2>
+        <div class="sec-rule"></div>
+      </div>
+
+      <div class="skills-block">
+        <p class="skills-label">Software</p>
+        <div class="software-grid">
+          <div class="sw-card">
+            <div class="sw-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/4/40/Adobe_Premiere_Pro_CC_icon.svg" alt="Premiere Pro"></div>
+            <span class="sw-name">Premiere Pro</span>
+          </div>
+          <div class="sw-card">
+            <div class="sw-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Adobe_After_Effects_CC_icon.svg" alt="After Effects"></div>
+            <span class="sw-name">After Effects</span>
+          </div>
+          <div class="sw-card">
+            <div class="sw-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/1/1c/Capcut-icon.svg" alt="CapCut"></div>
+            <span class="sw-name">CapCut</span>
+          </div>
+          <div class="sw-card">
+            <div class="sw-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/Canva_logo.svg" alt="Canva"></div>
+            <span class="sw-name">Canva</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="skills-block">
+        <p class="skills-label">Skills</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Storytelling</span>
+          <span class="skill-tag">Motion Graphics</span>
+          <span class="skill-tag">Sound Design</span>
+          <span class="skill-tag">Color Grading</span>
+          <span class="skill-tag">Content Strategy</span>
+          <span class="skill-tag">Retention Editing</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
 
   <footer>
-    <p>&copy; 2025 lyhbndc Portfolio. All rights reserved.</p>
+    <div class="footer-inner">
+      <img src="aa logo.svg" alt="AA" class="footer-logo">
+      <p class="footer-name">Aaliyah Bondoc</p>
+      <p class="footer-role">Video Editor</p>
+      <div class="footer-links">
+        <a href="mailto:bondoc.aaliyah.b@gmail.com">Work With Me</a>
+        <span class="footer-dot">·</span>
+        <a href="https://www.linkedin.com/in/lyhbndc" target="_blank" rel="noopener">LinkedIn</a>
+        <span class="footer-dot">·</span>
+        <a href="https://drive.google.com/file/d/17Ng6Ey7KhdaxxakA3SqXAU6N3hM1yelb/view?usp=sharing" target="_blank" rel="noopener">CV</a>
+      </div>
+      <p class="footer-copy">&copy; 2023 Aaliyah Bondoc. All rights reserved.</p>
+    </div>
   </footer>
 
   <script>
-    // Add scrolled class to header
-    window.addEventListener('scroll', function() {
-      const header = document.getElementById('header');
-      if (window.scrollY > 50) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
-      }
-    });
+    /* ── Starfield ── */
+    (function () {
+      const canvas = document.getElementById('starfield');
+      const ctx = canvas.getContext('2d');
+      let stars = [];
+      const COUNT = 200;
 
-    // Smooth scroll for navigation
-    document.querySelectorAll('nav a').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        const headerHeight = 80;
-        const targetPosition = target.offsetTop - headerHeight;
-        
-        window.scrollTo({
-          top: targetPosition,
-          behavior: 'smooth'
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      function seed() {
+        stars = [];
+        for (let i = 0; i < COUNT; i++) {
+          stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 1.1 + 0.15,
+            o: Math.random() * 0.55 + 0.08,
+          });
+        }
+      }
+
+      let scrollY = 0;
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const h = canvas.height;
+        stars.forEach(s => {
+          /* stars drift upward at 18% of scroll speed */
+          let py = ((s.y - scrollY * 0.18) % h + h) % h;
+          ctx.beginPath();
+          ctx.arc(s.x, py, s.r, 0, Math.PI * 2);
+          const rgb = getComputedStyle(document.documentElement).getPropertyValue('--star').trim();
+          ctx.fillStyle = `rgba(${rgb},${s.o})`;
+          ctx.fill();
         });
+        requestAnimationFrame(draw);
+      }
+
+      window.addEventListener('scroll', () => { scrollY = window.scrollY; }, { passive: true });
+      window.addEventListener('resize', () => { resize(); seed(); });
+      resize();
+      seed();
+      draw();
+    })();
+
+    /* ── Theme toggle ── */
+    (function () {
+      const html = document.documentElement;
+      const btn  = document.getElementById('theme-btn');
+      const sun  = document.getElementById('icon-sun');
+      const moon = document.getElementById('icon-moon');
+
+      function apply(theme) {
+        if (theme === 'light') {
+          html.dataset.theme = 'light';
+          sun.style.display  = 'none';
+          moon.style.display = '';
+        } else {
+          html.dataset.theme = '';
+          sun.style.display  = '';
+          moon.style.display = 'none';
+        }
+      }
+
+      apply(localStorage.getItem('theme') || 'dark');
+
+      btn.addEventListener('click', () => {
+        const next = html.dataset.theme === 'light' ? 'dark' : 'light';
+        localStorage.setItem('theme', next);
+        apply(next);
       });
-    });
+    })();
+
+    /* ── Short form carousel ── */
+    (function () {
+      const track = document.getElementById('reels-track');
+      const prev  = document.getElementById('reels-prev');
+      const next  = document.getElementById('reels-next');
+      if (!track) return;
+
+      function step(dir) {
+        const card = track.querySelector('.embed-card');
+        if (!card) return;
+        track.scrollBy({ left: dir * (card.offsetWidth + 14) * 2, behavior: 'smooth' });
+      }
+
+      prev.addEventListener('click', () => step(-1));
+      next.addEventListener('click', () => step(1));
+    })();
+
+    /* ── Parallax: hero + section headers ── */
+    (function () {
+      const hero = document.getElementById('hero');
+      const headers = document.querySelectorAll('[data-parallax]');
+
+      function tick() {
+        const sy = window.scrollY;
+        if (hero) hero.style.transform = `translateY(${sy * 0.32}px)`;
+        headers.forEach(el => {
+          const rate = parseFloat(el.dataset.parallax) || 0.04;
+          const mid = el.getBoundingClientRect().top + el.offsetHeight / 2;
+          const offset = (mid - window.innerHeight / 2) * rate;
+          el.style.transform = `translateY(${offset}px)`;
+        });
+      }
+
+      window.addEventListener('scroll', tick, { passive: true });
+      tick();
+    })();
+
   </script>
+
 </body>
 </html>
