@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aaliyah Bondoc Rate Card</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: a printed receipt clipped to a butter-yellow cutting mat. One deliberate look, so colors are fixed for both themes. */
+:root {
+  --mat: #f1dc86;          /* butter yellow cutting mat */
+  --mat-line: rgba(90, 55, 25, .16);
+  --mat-major: rgba(90, 55, 25, .32);
+  --paper: #fffdf6;
+  --ink: #3a2416;          /* espresso brown */
+  --soft: #6e5340;
+  --clip: #2b1a10;
+  --track: #efe4c8;
+  --tan: #c99a62;
+  --title: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, "Courier New", monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { background: var(--mat); }
+body {
+  margin: 0; min-height: 100vh; color: var(--ink); font-family: var(--mono); font-size: 13.5px; line-height: 1.45;
+  background-color: var(--mat);
+  background-image:
+    linear-gradient(var(--mat-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--mat-major) 1px, transparent 1px),
+    linear-gradient(var(--mat-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--mat-line) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+  padding-block: 56px 72px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  font-variant-numeric: tabular-nums;
+}
+.stage { max-width: 580px; margin: 0 auto; position: relative; transform: rotate(-1.6deg); filter: drop-shadow(0 18px 24px rgba(58, 36, 22, .22)) drop-shadow(0 2px 3px rgba(58, 36, 22, .18)); }
+
+/* Scalloped top and bottom edges */
+.receipt {
+  background: var(--paper);
+  padding: 44px 40px 48px;
+  --s: 7px;
+  -webkit-mask:
+    radial-gradient(circle var(--s) at 50% 0, transparent 97%, #000) top / 18px 51% repeat-x,
+    radial-gradient(circle var(--s) at 50% 100%, transparent 97%, #000) bottom / 18px 51% repeat-x;
+          mask:
+    radial-gradient(circle var(--s) at 50% 0, transparent 97%, #000) top / 18px 51% repeat-x,
+    radial-gradient(circle var(--s) at 50% 100%, transparent 97%, #000) bottom / 18px 51% repeat-x;
+  display: grid; gap: 22px;
+}
+
+/* Binder clip */
+.clip { position: absolute; top: 34px; left: -22px; width: 64px; height: 92px; z-index: 2; transform: rotate(-4deg); }
+.clip .body { position: absolute; inset: 0 0 0 14px; background: linear-gradient(90deg, #1d110a, var(--clip) 40%, #4a3020 60%, var(--clip)); border-radius: 4px 8px 8px 4px; }
+.clip .wire { position: absolute; left: -34px; width: 58px; height: 22px; border: 3px solid #b9b2a6; border-right: 0; border-radius: 14px 0 0 14px; }
+.clip .wire.a { top: 14px; } .clip .wire.b { top: 30px; height: 26px; }
+
+h1 { font: 800 clamp(52px, 13vw, 84px)/.9 var(--title); letter-spacing: -.045em; margin: 0; text-align: center; }
+.center { text-align: center; }
+.meta { display: grid; gap: 2px; }
+.caps { text-transform: uppercase; }
+.rule { border: 0; border-top: 2px dotted var(--ink); margin: 0; opacity: .8; }
+
+section { display: grid; gap: 4px; }
+.sec-title { font-weight: 600; text-transform: uppercase; margin-bottom: 4px; }
+.sub { font-weight: 600; margin-top: 8px; }
+.sub:first-of-type { margin-top: 0; }
+
+/* Demographics bars */
+.demo { gap: 20px; }
+.demo .sec-title { margin-bottom: 0; }
+.demo-group { display: grid; gap: 6px; }
+.demo-group .sub { margin-top: 0; }
+.dh { font-size: 11.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--soft); }
+.bar { display: grid; grid-template-columns: 11ch 1fr 6ch; align-items: center; gap: 10px; }
+.bar .t { height: 9px; background: var(--track); border-radius: 2px; overflow: hidden; }
+.bar .t span { display: block; height: 100%; background: var(--ink); border-radius: 2px; min-width: 2px; }
+.bar .v { text-align: right; font-weight: 600; }
+.split { display: flex; height: 14px; border-radius: 2px; overflow: hidden; gap: 2px; }
+.split span:first-child { background: var(--ink); }
+.split span:last-child { background: var(--tan); }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.k { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+.k.a { background: var(--ink); } .k.b { background: var(--tan); }
+.line { display: flex; align-items: baseline; gap: 10px; }
+.line .what { min-width: 0; }
+.line .fill { flex: 1; border-bottom: 1px dotted var(--soft); transform: translateY(-4px); min-width: 16px; }
+.line .amt { white-space: nowrap; font-weight: 600; }
+.note { color: var(--soft); font-size: 12.5px; padding-left: 2ch; margin-top: -2px; margin-bottom: 4px; }
+
+.formula { display: grid; gap: 2px; }
+.formula .head { display: flex; justify-content: space-between; gap: 12px; font-weight: 600; text-transform: uppercase; }
+.formula .row { display: flex; justify-content: space-between; gap: 12px; padding-left: 2ch; }
+.formula .row span:last-child { white-space: nowrap; }
+.formula .save { color: var(--soft); font-size: 12.5px; padding-left: 2ch; }
+.formulas { display: grid; gap: 18px; }
+
+/* Perforation */
+.perf { height: 10px; margin-inline: -40px; background: radial-gradient(circle 2.6px, var(--ink) 95%, transparent) 0 50% / 14px 10px repeat-x; opacity: .85; }
+
+.closing { display: grid; gap: 14px; text-align: center; text-transform: uppercase; }
+.email { font-weight: 600; text-transform: none; user-select: all; overflow-wrap: anywhere; }
+.copy {
+  justify-self: center; font: 600 13px var(--mono); text-transform: uppercase; letter-spacing: .06em;
+  color: var(--paper); background: var(--ink); border: 0; border-radius: 4px; padding: 10px 18px; cursor: pointer;
+  transition: transform .15s ease;
+}
+.copy:hover { transform: translateY(-1px); }
+.copy:active { transform: scale(.96); }
+.copy:focus-visible { outline: 2px dashed var(--ink); outline-offset: 3px; }
+.copy.done { animation: pop .35s ease; }
+@keyframes pop { 0% { transform: scale(.92); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
+.stamp { font-weight: 600; font-size: 16px; letter-spacing: .08em; text-align: center; }
+.fine { font-size: 11.5px; color: var(--soft); text-align: center; }
+
+/* Motion: receipt drops onto the mat, clip snaps on, then lines print in as they scroll into view */
+.stage { --rot: -1.6deg; transform: rotate(var(--rot)); animation: drop .9s cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes drop {
+  from { opacity: 0; transform: translateY(-48px) rotate(calc(var(--rot) - 3deg)); }
+  to { opacity: 1; transform: rotate(var(--rot)); }
+}
+.clip { --clip-t: rotate(-4deg); transform: var(--clip-t); animation: snap .45s .75s cubic-bezier(.3, 1.6, .5, 1) both; }
+@keyframes snap {
+  from { opacity: 0; transform: translateX(-28px) var(--clip-t) rotate(-18deg); }
+  to { opacity: 1; transform: var(--clip-t); }
+}
+
+.js .reveal { opacity: 0; transform: translateY(8px); transition: opacity .5s ease var(--d, 0ms), transform .5s ease var(--d, 0ms); }
+.js .reveal.in { opacity: 1; transform: none; }
+
+/* Dotted leaders draw across, bars fill */
+.js .line .fill { transform: translateY(-4px) scaleX(0); transform-origin: left; transition: transform .7s cubic-bezier(.2, .8, .2, 1) calc(var(--d, 0ms) + 150ms); }
+.js .in .fill, .js .line.in .fill { transform: translateY(-4px) scaleX(1); }
+.js .bar .t span, .js .split span { transform: scaleX(0); transform-origin: left; transition: transform 1.1s cubic-bezier(.2, .8, .2, 1) calc(var(--d, 0ms) + 200ms); }
+.js .in .bar .t span, .js .in .split span, .js .bar.in .t span, .js .split.in span { transform: scaleX(1); }
+
+/* Rubber stamp */
+.js .stamp.reveal { transform: scale(1.8) rotate(-8deg); transition: opacity .25s ease, transform .35s cubic-bezier(.3, 1.4, .5, 1); }
+.js .stamp.reveal.in { transform: rotate(-2deg); }
+
+.line { border-radius: 3px; transition: background-color .2s ease; }
+.line:hover { background-color: rgba(201, 154, 98, .14); }
+
+@media (prefers-reduced-motion: reduce) {
+  .copy, .copy.done, .stage, .clip { transition: none; animation: none; }
+}
+@media (max-width: 600px) {
+  body { padding-block: 32px 48px; font-size: 12.5px; }
+  .stage { --rot: -.8deg; }
+  .receipt { padding: 40px 20px 44px; }
+  .perf { margin-inline: -20px; }
+  .clip { left: -10px; top: 20px; --clip-t: rotate(-4deg) scale(.75); transform-origin: top left; }
+}
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="clip" aria-hidden="true"><span class="wire a"></span><span class="wire b"></span><span class="body"></span></div>
+  <main class="receipt">
+    <h1>Rates</h1>
+
+    <div class="meta center">
+      <span>Aaliyah Bondoc</span>
+      <span>TikTok @liyahbrns · IG @lyhbndc</span>
+      <span>aaliyahbndc@gmail.com</span>
+    </div>
+
+    <div class="meta center caps">
+      <span>Brand partnership rates</span>
+    </div>
+
+    <hr class="rule">
+
+    <section aria-label="Audience">
+      <div class="sec-title">Audience</div>
+      <div class="sub">TikTok @liyahbrns</div>
+      <div class="line"><span class="what">Followers</span><span class="fill"></span><span class="amt">3,130</span></div>
+      <div class="line"><span class="what">Video views, last 28 days</span><span class="fill"></span><span class="amt">40.9K</span></div>
+      <div class="line"><span class="what">Engagement rate</span><span class="fill"></span><span class="amt">5.2%</span></div>
+      <div class="note">Likes, comments and shares out of every 100 views.</div>
+      <div class="sub">Instagram @lyhbndc</div>
+      <div class="line"><span class="what">Followers</span><span class="fill"></span><span class="amt">8,414</span></div>
+      <div class="line"><span class="what">Views, last 30 days</span><span class="fill"></span><span class="amt">260.3K</span></div>
+      <div class="line"><span class="what">New followers, last 30 days</span><span class="fill"></span><span class="amt">+448</span></div>
+    </section>
+
+    <hr class="rule">
+
+    <section class="demo" aria-label="Demographics">
+      <div class="sec-title">Demographics</div>
+      <div class="note" style="padding-left:0;margin-top:-14px">TikTok viewers and Instagram followers combined, Oct–Nov 2026</div>
+
+      <div class="demo-group">
+        <div class="dh">Gender</div>
+        <div class="split" role="img" aria-label="Women 58.7%, men 41.3%"><span style="width:58.7%"></span><span style="width:41.3%"></span></div>
+        <div class="legend"><span><i class="k a"></i>Women 58.7%</span><span><i class="k b"></i>Men 41.3%</span></div>
+      </div>
+
+      <div class="demo-group">
+        <div class="dh">Age</div>
+        <div class="bar"><span class="l">25–34</span><span class="t"><span style="width:53.3%"></span></span><span class="v">53.3%</span></div>
+      </div>
+
+      <div class="demo-group">
+        <div class="dh">Country</div>
+        <div class="bar"><span class="l">Philippines</span><span class="t"><span style="width:68.2%"></span></span><span class="v">68.2%</span></div>
+      </div>
+    </section>
+
+    <hr class="rule">
+
+    <section aria-label="TikTok">
+      <div class="sec-title">TikTok @liyahbrns</div>
+      <div class="line"><span class="what">Dedicated video</span><span class="fill"></span><span class="amt">₱3,000</span></div>
+      <div class="note">30–60s. I write, film, edit. 1 revision.</div>
+      <div class="line"><span class="what">Without voiceover</span><span class="fill"></span><span class="amt">₱2,000</span></div>
+      <div class="note">Same video, no voiceover.</div>
+      <div class="line"><span class="what">Video from your brief</span><span class="fill"></span><span class="amt">₱2,000</span></div>
+      <div class="note">You send concept + script, I film + edit.</div>
+      <div class="line"><span class="what">Integrated mention</span><span class="fill"></span><span class="amt">₱1,800</span></div>
+      <div class="note">10–15s feature inside a regular video.</div>
+    </section>
+
+    <section aria-label="Instagram">
+      <div class="sec-title">Instagram @lyhbndc</div>
+      <div class="line"><span class="what">Reel</span><span class="fill"></span><span class="amt">₱5,000</span></div>
+      <div class="note">30–60s. I write, film, edit. 1 revision.</div>
+      <div class="line"><span class="what">Without voiceover</span><span class="fill"></span><span class="amt">₱2,000</span></div>
+      <div class="note">Same video, no voiceover.</div>
+      <div class="line"><span class="what">Reel from your brief</span><span class="fill"></span><span class="amt">₱3,750</span></div>
+      <div class="note">You send concept + script, I film + edit.</div>
+      <div class="line"><span class="what">Feed post / carousel</span><span class="fill"></span><span class="amt">₱3,200</span></div>
+      <div class="note">Up to 5 photos with caption.</div>
+      <div class="line"><span class="what">Story set</span><span class="fill"></span><span class="amt">₱1,800</span></div>
+      <div class="note">With link sticker, up for 24 hours.</div>
+      <div class="line"><span class="what">Story highlight</span><span class="fill"></span><span class="amt">₱700</span></div>
+      <div class="note">Stays on my profile for 30 days.</div>
+    </section>
+
+    <section aria-label="UGC">
+      <div class="sec-title">UGC for your own pages</div>
+      <div class="note" style="padding-left:0">Made for your brand to post. Not posted on my accounts.</div>
+      <div class="line"><span class="what">UGC video</span><span class="fill"></span><span class="amt">₱3,000</span></div>
+      <div class="line"><span class="what">UGC photo</span><span class="fill"></span><span class="amt">₱500</span></div>
+      <div class="line"><span class="what">Product photo</span><span class="fill"></span><span class="amt">₱1,000</span></div>
+      <div class="line"><span class="what">Raw footage only</span><span class="fill"></span><span class="amt">₱6,000</span></div>
+    </section>
+
+    <hr class="rule">
+
+    <div class="formulas" aria-label="Packages">
+      <div class="formula">
+        <div class="head"><span>Cross-post</span><span>₱6,800</span></div>
+        <div class="row"><span>TikTok video</span><span>x1</span></div>
+        <div class="row"><span>Same edit as IG Reel</span><span>x1</span></div>
+        <div class="save">You save ₱1,200</div>
+      </div>
+      <div class="formula">
+        <div class="head"><span>Launch</span><span>₱8,300</span></div>
+        <div class="row"><span>TikTok video</span><span>x1</span></div>
+        <div class="row"><span>IG Reel</span><span>x1</span></div>
+        <div class="row"><span>Story set</span><span>x1</span></div>
+        <div class="save">You save ₱1,500</div>
+      </div>
+      <div class="formula">
+        <div class="head"><span>Monthly</span><span>₱15,700</span></div>
+        <div class="row"><span>TikTok videos</span><span>x2</span></div>
+        <div class="row"><span>IG Reels</span><span>x2</span></div>
+        <div class="row"><span>Story sets</span><span>x2</span></div>
+        <div class="save">You save ₱3,900</div>
+      </div>
+      <div class="note" style="padding-left:0">Same video x3: 5% off. Same video x5: 10% off.</div>
+    </div>
+
+    <div class="perf" aria-hidden="true"></div>
+
+    <section aria-label="Extras">
+      <div class="sec-title">Extras</div>
+      <div class="line"><span class="what">Rush, under 72 hours</span><span class="fill"></span><span class="amt">+25%</span></div>
+      <div class="line"><span class="what">Extra revision</span><span class="fill"></span><span class="amt">+₱500</span></div>
+    </section>
+
+    <section aria-label="How it works">
+      <div class="sec-title">How it works</div>
+      <div>Payment terms agreed per campaign.</div>
+      <div>Draft in 5–7 working days after product + brief.</div>
+      <div>Products sent free, kept by me unless agreed.</div>
+    </section>
+
+    <hr class="rule">
+
+    <div class="closing">
+      <span>Want content made for your brand?<br>Let's work together.</span>
+      <span class="email" id="email">aaliyahbndc@gmail.com</span>
+      <button type="button" class="copy" id="copy">Copy email</button>
+    </div>
+
+    <hr class="rule">
+
+    <div class="stamp">***THANK YOU***</div>
+    <div class="fine">Rates in PHP, VAT exclusive. Valid through Dec 2026.</div>
+  </main>
+</div>
+
+<script>
+(function () {
+  // Scroll reveal. Skipped for reduced motion or old browsers, so content shows as-is.
+  if (!('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var receipt = document.querySelector('.receipt');
+  var targets = [];
+  Array.prototype.forEach.call(receipt.children, function (el) {
+    // Sections reveal row by row; everything else as one piece
+    var rows = el.matches('section, .formulas, .demo-group') ? el.children : [el];
+    Array.prototype.forEach.call(rows, function (row, i) {
+      if (row.classList.contains('demo-group')) {
+        Array.prototype.forEach.call(row.children, function (r, j) { targets.push([r, j]); });
+      } else targets.push([row, i]);
+    });
+  });
+  document.documentElement.classList.add('js');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px' });
+  targets.forEach(function (t) {
+    t[0].classList.add('reveal');
+    t[0].style.setProperty('--d', Math.min(t[1], 8) * 55 + 'ms');
+    io.observe(t[0]);
+  });
+})();
+
+(function () {
+  var btn = document.getElementById('copy');
+  var email = document.getElementById('email');
+  var timer;
+  function show(label) {
+    btn.textContent = label;
+    btn.classList.remove('done'); void btn.offsetWidth; btn.classList.add('done');
+    clearTimeout(timer);
+    timer = setTimeout(function () { btn.textContent = 'Copy email'; btn.classList.remove('done'); }, 1800);
+  }
+  function selectText() {
+    var r = document.createRange(); r.selectNodeContents(email);
+    var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+  }
+  btn.addEventListener('click', function () {
+    btn.textContent = 'Copying…';
+    var text = email.textContent.trim();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { show('Copied ✓'); }, function () { selectText(); show('Press ⌘C'); });
+    } else { selectText(); show('Press ⌘C'); }
+  });
+})();
+</script>
+</body>
+</html>
